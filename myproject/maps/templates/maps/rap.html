@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+{% load static %}
+{% block map %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+<link rel="stylesheet" href="{% static 'css/map/main.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/css/autocomplete.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/leaflet.fullscreen.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+<!-- JS -->
+<script src="{% static 'leaflet/leaflet.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Leaflet.fullscreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="{% static 'js/map/cinemas1.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+    <!-- Banner (chiếm toàn bộ chiều rộng, nằm trên cùng) -->
+    <div style="width: 100%; margin-bottom: 30px;">
+        {% if cinema.images.exists %}
+            <!-- Swiper Carousel -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {% for image in cinema.images.all %}
+                        <div class="swiper-slide">
+                            <img src="{{ image.image_url }}" alt="Hình ảnh tại {{ cinema.name }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Thêm pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Thêm nút điều hướng -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        {% else %}
+            <p>Chưa có hình ảnh banner cho rạp này.</p>
+        {% endif %}
+    </div>
+
+    <!-- Thông tin chi tiết (chia thành 2 cột) -->
+    <div class="info-section">
+        <!-- Cột trái: Bản đồ + Thông tin cơ bản -->
+        <div>
+            <h2>📍 THÔNG TIN LIÊN HỆ</h2>
+            <p><strong>Tên rạp:</strong> {{ cinema.name }}</p>
+            <p><strong>Địa chỉ:</strong> {{ cinema.address }}, {{ cinema.district }}</p>
+            <p><strong>Điện thoại:</strong> {{ cinema.phone }}</p>
+
+            <div id="cinema-map" style="height: 300px; width: 100%; margin: 20px 0; border-radius: 8px; overflow: hidden;"></div>
+        </div>
+
+        <!-- Cột phải: Thông tin chi tiết về rạp -->
+        <div>
+            <h2>📖 GIỚI THIỆU RẠP</h2>
+            {% if cinema.description %}
+                <p>{{ cinema.description|linebreaks }}</p>
+            {% else %}
+                <p>Chưa có mô tả chi tiết cho rạp này.</p>
+            {% endif %}
+        </div>
+    </div>
+    <a href="{% url 'maps:co-ban' %}" class="btn btn-secondary mt-3">← Quay lại</a>
+
+</div>
+
+<!-- Khởi tạo Swiper -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if ({{ cinema.latitude|default:0 }} && {{ cinema.longitude|default:0 }} && "{{ cinema.name }}") {
+            initCinemaMap({{ cinema.latitude }}, {{ cinema.longitude }}, "{{ cinema.name }}");
+        } else {
+            console.error("Dữ liệu rạp phim không hợp lệ:", {
+                latitude: {{ cinema.latitude }},
+                longitude: {{ cinema.longitude }},
+                name: "{{ cinema.name }}"
+            });
+        }
+    });
+</script>
+{% endblock %}

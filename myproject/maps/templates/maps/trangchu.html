@@ -1,0 +1,160 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}        GalaxyCinema - Đặt vé xem phim trực tuyến
+{% endblock %}
+
+{% block map %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+<link rel="stylesheet" href="{% static 'css/map/main.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/css/autocomplete.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/leaflet.fullscreen.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<!-- CSS của Leaflet Routing Machine -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<!-- JS -->
+<script src="{% static 'leaflet/leaflet.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/autocomplete.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+
+
+{% endblock %}
+{% block content %}
+<!-- Thêm CSS của Swiper -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+  .swiper-slide {
+    height: 500px; /* Chiều cao cố định toàn bộ slide */
+    display: flex;
+    align-items: stretch; /* Giãn thẻ movie-card cho đều */
+}
+.movie-card img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+
+</style>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+  <!-- Banner -->
+  <div style="width: 100%; margin-bottom: 30px;">
+      <div class="swiper-container">
+          <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                  <img src="https://cdn.galaxycine.vn/media/2025/4/18/2048_1744987015354.jpg" alt="Banner 1">
+              </div>
+              <div class="swiper-slide">
+                  <img src="https://cdn.galaxycine.vn/media/2025/4/18/tham-tu-kien-3_1744984172402.jpg" alt="Banner 2">
+              </div>
+              <div class="swiper-slide">
+                  <img src="https://cdn.galaxycine.vn/media/2025/4/3/shopee-3_1743669392499.jpg" alt="Banner 3">
+              </div>
+              <div class="swiper-slide">
+                <img src="https://cdn.galaxycine.vn/media/2025/3/25/dia-dao-1_1742874075591.jpg" alt="Banner 4">
+            </div><div class="swiper-slide">
+              <img src="https://cdn.galaxycine.vn/media/2025/4/18/chong-gai-1_1744949649177.jpg" alt="Banner 5">
+          </div>
+              <!-- Thêm bao nhiêu slide tùy ý -->
+          </div>
+          <!-- Pagination + Nút điều hướng -->
+           <div class="swiper-pagination"></div>
+           <div class="swiper-banner-next swiper-button-next"></div>
+           <div class="swiper-banner-prev swiper-button-prev"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Swiper -->
+<div style="padding: 20px 60px;">
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for movie in movies %}
+        <div class="swiper-slide">
+            <div class="movie-card">
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+                <div class="age-tag">T{{ movie.age_limit|default:"18" }}</div>
+                <div class="movie-info">
+                    <h3>{{ movie.title }}</h3>
+                    <p>Thời lượng: {{ movie.duration }} phút</p>
+                    {% if movie.id %}
+                    <a href="{% url 'maps:phim_detail' movie.id %}">Xem chi tiết</a>
+                    {% else %}
+                    <span>Không có thông tin chi tiết</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Thêm nút điều hướng -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+</div>
+<br>
+  <!-- Thanh tìm kiếm và dropdown -->
+  
+ <!-- Nút chọn rạp -->
+<div style="text-align: center; margin: 20px 0;">
+    <button class="btn btn-secondary" type="button" id="cinemaDropdown">
+        Chọn rạp
+    </button>
+</div>
+
+<!-- Danh sách các rạp dạng ô vuông -->
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px;">
+    {% for cinema in cinemas %}
+    <div style="border: 1px solid #ccc; padding: 20px; width: 200px; text-align: center; border-radius: 10px; background-color: #f8f8f8;">
+        <a href="{% url 'maps:rap' cinema.id %}" style="text-decoration: none; color: #333; font-weight: bold;">{{ cinema.name }}</a>
+    </div>
+    {% empty %}
+    <div>Không có rạp nào.</div>
+    {% endfor %}
+</div>
+
+
+
+<script src="{% static 'js/map/cinemas.js' %}"></script>
+<!-- JS của Leaflet Routing Machine -->
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+<!-- Khởi tạo Swiper -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Swiper cho danh sách phim (mySwiper)
+      const movieSwiper = new Swiper(".mySwiper", {
+          slidesPerView: 4,     // 4 phim 1 lượt
+          spaceBetween: 15,     // khoảng cách giữa phim
+          navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+          },
+      });
+  
+      // Swiper cho banner rạp (swiper-container)
+      const bannerSwiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-banner-next',
+            prevEl: '.swiper-banner-prev',
+        },
+    });
+  });
+  </script>
+
+
+
+{% endblock %}

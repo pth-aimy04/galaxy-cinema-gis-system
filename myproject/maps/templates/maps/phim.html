@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Danh sách phim{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/map/main.css' %}" />
+
+
+<div class="movie-grid">
+    {% for movie in movies %}
+    <div class="movie-card">
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+       
+        <div class="age-tag">T{{ movie.age_limit|default:"18" }}</div>
+        <div class="movie-info">
+            <h3>{{ movie.title }}</h3>
+            <p>Thời lượng: {{ movie.duration }} phút</p>
+            {% if movie.id %}
+            <a href="{% url 'maps:phim_detail' movie.id %}">Xem chi tiết</a>
+            {% else %}
+            <span>Không có thông tin chi tiết</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

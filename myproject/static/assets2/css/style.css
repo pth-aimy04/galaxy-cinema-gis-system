@@ -1,0 +1,269 @@
+/*** Ghi đè màu của Bootstrap ***/
+:root {
+    --bs-primary: #FFA500; /* Màu cam chủ đạo */
+    --bs-primary-rgb: 255, 165, 0; /* RGB của màu cam */
+    --bs-secondary: #FF8C00; /* Màu cam phụ (đậm hơn một chút) */
+    --bs-light: #FFF8E7; /* Màu nhạt bổ trợ */
+    --bs-white: #FFFFFF; /* Màu trắng làm màu bổ trợ chính */
+    --bs-dark: #343A40;
+    --bs-gray: #6C757D;
+}
+
+/*** Reset CSS cơ bản ***/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--bs-white) !important; /* Đặt màu nền của body là trắng để tránh lộ màu xám đen */
+}
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-out, visibility 0s linear 0.5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity 0.8s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner-grow {
+    background-color: var(--bs-primary); /* Spinner màu cam */
+}
+
+/*** Topbar ***/
+.topbar {
+    background-color: var(--bs-primary) !important; /* Nền topbar màu cam */
+    color: var(--bs-white); /* Chữ trắng */
+    padding: 20px;
+    border-radius: 230px 100px;
+}
+
+.topbar .top-info {
+    font-size: 15px;
+    line-height: 0;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.topbar .top-link {
+    font-size: 15px;
+    line-height: 0;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.topbar .top-info small a,
+.topbar .top-link a {
+    color: var(--bs-white) !important; /* Chữ trắng */
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.topbar .top-info small i {
+    color: var(--bs-white) !important; /* Icon màu trắng */
+}
+
+.topbar .top-link a:hover {
+    color: var(--bs-secondary) !important; /* Hover màu cam phụ */
+}
+
+/*** Navbar ***/
+.navbar {
+    background-color: var(--bs-white) !important; /* Nền navbar màu trắng */
+    width: 100%; /* Đảm bảo navbar trải rộng toàn bộ chiều ngang */
+    margin: 0; /* Loại bỏ margin */
+    padding: 20px 0; /* Padding trên dưới, không padding trái phải */
+    height: 100px;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+/* Đảm bảo container bên trong navbar cũng có nền trắng và trải rộng */
+.navbar .container,
+.navbar .container-fluid {
+    background-color: var(--bs-white) !important;
+    width: 100% !important; /* Đảm bảo container trải rộng toàn bộ chiều ngang */
+    max-width: 100% !important; /* Loại bỏ giới hạn chiều rộng của container */
+    padding-left: 15px; /* Thêm padding trái/phải để nội dung không sát lề */
+    padding-right: 15px;
+}
+
+/* Đảm bảo container cha của navbar (nếu có) không ảnh hưởng */
+header, /* Nếu navbar nằm trong thẻ header */
+.container-fluid:has(.navbar) {
+    background-color: var(--bs-white) !important;
+}
+
+.navbar-brand h1 {
+    color: var(--bs-primary) !important; /* Logo màu cam */
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+}
+
+.navbar-toggler .fa-bars {
+    color: var(--bs-primary); /* Icon menu màu cam */
+}
+
+.navbar .navbar-nav .nav-link {
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .5s;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--bs-primary); /* Hover và active màu cam */
+}
+
+/*** Icons trong Navbar ***/
+.d-flex .btn-search {
+    border-color: var(--bs-primary) !important; /* Viền nút tìm kiếm màu cam */
+    background-color: var(--bs-white); /* Nền trắng */
+    transition: 0.3s;
+}
+
+.navbar .d-flex .btn-search i {
+    color: var(--bs-secondary) !important;
+}
+
+.navbar .d-flex .fa-ticket-alt,
+.navbar .d-flex .fa-user {
+    color: var(--bs-secondary) !important;
+}
+
+.d-flex .btn-search:hover {
+    background-color: var(--bs-primary); /* Nền cam khi hover */
+}
+
+.d-flex .btn-search i {
+    color: var(--bs-secondary); /* Icon tìm kiếm màu cam phụ */
+}
+
+.d-flex .btn-search:hover i {
+    color: var(--bs-white); /* Icon trắng khi hover */
+}
+
+.d-flex .fa-ticket-alt,
+.d-flex .fa-user {
+    color: var(--bs-secondary); /* Icon vé và user màu cam phụ */
+    transition: 0.3s;
+}
+
+.d-flex .fa-ticket-alt:hover,
+.d-flex .fa-user:hover {
+    color: var(--bs-primary); /* Hover màu cam chính */
+}
+
+/*** Modal Search ***/
+#searchModal .modal-content {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#searchModal .modal-title {
+    color: var(--bs-dark);
+}
+
+#searchModal .input-group-text {
+    background-color: var(--bs-primary); /* Nền nút tìm kiếm màu cam */
+    color: var(--bs-white); /* Icon màu trắng */
+}
+
+/*** Main Content ***/
+main {
+    padding-top: 120px;
+}
+
+/*** Footer ***/
+.bg-dark {
+    background-color: var(--bs-dark) !important;
+}
+
+.footer .text-white {
+    color: var(--bs-white) !important; /* Chữ trắng */
+}
+
+.footer .btn-link {
+    color: var(--bs-white); /* Chữ trắng */
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer .btn-link:hover {
+    color: var(--bs-primary) !important; /* Hover màu cam */
+}
+
+.footer .btn-outline-secondary {
+    border-color: var(--bs-primary); /* Viền icon mạng xã hội màu cam */
+    color: var(--bs-white); /* Icon màu trắng */
+}
+
+.footer .btn-outline-secondary:hover {
+    background-color: var(--bs-primary); /* Nền hover màu cam */
+    border-color: var(--bs-primary);
+    color: var(--bs-white); /* Icon màu trắng */
+}
+
+.footer .text-center strong,
+.footer .text-center {
+    color: var(--bs-white); /* Chữ trắng */
+}
+
+/*** Copyright Section ***/
+.copyright {
+    background-color: var(--bs-dark) !important;
+}
+
+.copyright .text-light,
+.copyright a {
+    color: var(--bs-white) !important; /* Chữ trắng */
+}
+
+.copyright a:hover {
+    color: var(--bs-primary) !important; /* Hover màu cam */
+}
+
+/*** Back to Top ***/
+.back-to-top {
+    background-color: var(--bs-primary); /* Nền nút màu cam */
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-white); /* Icon màu trắng */
+    transition: 0.3s;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    width: 45px;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    z-index: 99;
+}
+
+.back-to-top:hover {
+    background-color: var(--bs-secondary); /* Hover màu cam phụ */
+    border-color: var(--bs-secondary) !important;
+}
+
+@media (min-width: 1200px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        visibility: hidden;
+        top: 100%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        border: 0;
+        transition: .5s;
+        opacity: 0;
+    }
+}

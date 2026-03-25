@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        {% block title %}
+        GalaxyCinema - Đặt vé xem phim trực tuyến
+        {% endblock %}
+    </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'assets2/lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets2/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets2/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets2/css/style.css' %}" rel="stylesheet">
+    {% block map %}
+    <style>{% block extra_css %}{% endblock %}</style>
+    {% endblock %}
+</head>
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i><a href="#" class="text-white">123 Galaxy, TP.HCM</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">support@galaxystudio.vn</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white"><small class="text-white mx-2">Chính sách bảo mật</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Điều khoản</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Hỗ trợ</small></a>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a href="{% url 'maps:trangchu' %}" class="navbar-brand"><h1 class="text-primary display-6">GalaxyCinema</h1></a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="{% url 'maps:trangchu' %}" class="nav-item nav-link active">Trang chủ</a>
+                        <a href="{% url 'maps:phim' %}" class="nav-item nav-link">Phim</a>
+                        <a href="{% url 'maps:co-ban' %}" class="nav-item nav-link">Rạp</a>
+                       
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        <a href="#" class="position-relative me-4 my-auto">
+                            <i class="fa fa-ticket-alt fa-2x text-primary"></i>
+                        </a>
+                        <a href="#" class="my-auto">
+                            <i class="fas fa-user fa-2x text-primary"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Modal Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm phim</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <div class="input-group w-75 mx-auto d-flex">
+                        <input type="search" class="form-control p-3" placeholder="Tên phim..." aria-describedby="search-icon-1">
+                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Search End -->
+
+    <main style="position: relative; min-height: 100%; height: 100%; padding-top: 120px;">
+        {% block content %}
+        {% endblock %}
+        {% block script %}
+        {% endblock %}
+    </main>
+
+   <!-- Footer Start -->
+<div class="container-fluid bg-dark text-white-50 pt-5 mt-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-md-3">
+                <h5 class="text-white mb-4">GIỚI THIỆU</h5>
+                <a class="btn btn-link text-white-50" href="#">Về Chúng Tôi</a><br>
+                <a class="btn btn-link text-white-50" href="#">Thoả Thuận Sử Dụng</a><br>
+                <a class="btn btn-link text-white-50" href="#">Quy Chế Hoạt Động</a><br>
+                <a class="btn btn-link text-white-50" href="#">Chính Sách Bảo Mật</a>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-white mb-4">GÓC ĐIỆN ẢNH</h5>
+                <a class="btn btn-link text-white-50" href="#">Thể Loại Phim</a><br>
+                <a class="btn btn-link text-white-50" href="#">Bình Luận Phim</a><br>
+                <a class="btn btn-link text-white-50" href="#">Blog Điện Ảnh</a><br>
+                <a class="btn btn-link text-white-50" href="#">Phim Hay Tháng</a><br>
+                <a class="btn btn-link text-white-50" href="#">Phim IMAX</a>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-white mb-4">HỖ TRỢ</h5>
+                <a class="btn btn-link text-white-50" href="#">Góp Ý</a><br>
+                <a class="btn btn-link text-white-50" href="#">Sale & Services</a><br>
+                <a class="btn btn-link text-white-50" href="#">Rạp / Giá Vé</a><br>
+                <a class="btn btn-link text-white-50" href="#">Tuyển Dụng</a><br>
+                <a class="btn btn-link text-white-50" href="#">FAQ</a>
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="{% static 'images/logo-galaxy.png' %}" alt="Galaxy Cinema" class="mb-3" style="max-width: 120px;">
+                <div class="d-flex justify-content-center mb-3">
+                    <a class="btn btn-outline-secondary me-2 btn-sm-square rounded-circle" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-secondary me-2 btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-secondary btn-sm-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <img src="{% static 'images/bo-cong-thuong.png' %}" alt="Bộ Công Thương" style="max-height: 50px;">
+            </div>
+        </div>
+        <hr class="text-white-50 mt-5">
+        <div class="text-center text-white">
+            <strong>CÔNG TY CỔ PHẦN PHIM THIÊN NGÂN</strong><br>
+            3/9 Võ Văn Tần, Phường 6, Quận 3, Tp. Hồ Chí Minh, Việt Nam<br>
+            028.39.333.303 – 19002224 (9:00 – 22:00) – ✉️ hotro@galaxystudio.vn
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+    <!-- Copyright -->
+    <div class="container-fluid copyright bg-dark py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-light">&copy; 2025 <a href="#" class="text-white">GalaxyCinema</a>. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 my-auto text-center text-md-end text-white">
+                    Thiết kế bởi <a class="border-bottom" href="#">Nhóm 7</a> | Mã nguồn: <a class="border-bottom" href="https://github.com/">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'assets2/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'assets2/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets2/lib/lightbox/js/lightbox.min.js' %}"></script>
+    <script src="{% static 'assets2/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets2/js/main.js' %}"></script>
+</body>
+</html>

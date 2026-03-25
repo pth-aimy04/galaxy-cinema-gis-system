@@ -1,0 +1,118 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title %}Bản đồ rạp chiếu phim{% endblock %}
+
+{% block map %}
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+<link rel="stylesheet" href="{% static 'css/map/main.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/css/autocomplete.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/leaflet.fullscreen.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<!-- JS -->
+<script src="{% static 'leaflet/leaflet.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/autocomplete.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<section class="special-services">
+    <!-- Banner -->
+    <div class="swiper banner-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="https://cdn.galaxycine.vn/media/2023/11/22/1_1700637478799.jpg" alt="Banner1">
+            </div>
+            <div class="swiper-slide">
+                <img src="https://cdn.galaxycine.vn/media/2023/12/25/3_1703500560520.jpg" alt="Banner2">
+            </div>
+            <div class="swiper-slide">
+                <img src="{% static 'assets/img/banner/cinema-banner3.jpg' %}" alt="Banner3">
+            </div>
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <br>
+
+    <!-- Tiêu đề -->
+    <div class="section-title text-center" data-aos="fade-up">
+        <h2>Bản đồ rạp chiếu phim</h2>
+    </div>
+
+    <!-- Thanh tìm kiếm + Các dropdown chức năng -->
+    <div class="container mb-3">
+        <div class="search-container">
+            <div class="auto-search-wrapper">
+                <input type="text" id="search" placeholder="Nhập vào tên rạp phim" autocomplete="off" />
+            </div>
+            <button id="search-btn" class="btn btn-primary">Tìm kiếm</button>
+
+            <!-- Chọn rạp -->
+            <div class="dropdown d-inline-block ms-2">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="cinemaDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Chọn rạp
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="cinemaDropdown">
+                    {% for cinema in cinemas %}
+                        <li><a class="dropdown-item" href="{% url 'maps:rap' cinema.id %}">{{ cinema.name }}</a></li>
+                    {% empty %}
+                        <li><a class="dropdown-item" href="#">Không có rạp nào</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+           
+<!-- Lọc theo quận -->
+<div class="dropdown d-inline-block ms-2" style="min-width: 200px;">
+    <select id="districtSelect" class="form-select">
+        <option value="">Tất cả các quận</option>
+        {% for district in districts %}
+            <option value="{{ district|escape }}">{{ district }}</option>
+        {% empty %}
+            <option disabled>Không có quận nào</option>
+        {% endfor %}
+    </select>
+</div>
+
+        </div>
+    </div>
+
+    <div class="container map-wrapper" style="position: relative;">
+        <div class="row">
+            <!-- Map -->
+            <div class="col-lg-8 col-md-7">
+                <div id="map" class="map-container"></div>
+            </div>
+    
+            <!-- Thông tin -->
+            <div class="col-lg-4 col-md-5">
+                <div class="description-container">
+                    {% for cinema in cinemas %}
+                    <article data-coordinates="[{{ cinema.latitude }}, {{ cinema.longitude }}]" data-title="{{ cinema.name }}" data-district="{{ cinema.district }}">
+                        <h3>{{ cinema.name }}</h3>
+                        <small>{{ cinema.address }}, {{ cinema.district }}</small>
+                    </article>
+                    {% empty %}
+                    <p>Không tìm thấy rạp chiếu phim nào.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JS -->
+<script>
+    window.cinemasData = {{ cinemas_json|safe }};
+</script>
+<script src="{% static 'js/map/cinemas.js' %}"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+{% endblock %}
