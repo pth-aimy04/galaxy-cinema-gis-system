@@ -102,9 +102,7 @@ DTMap2/
 
 ## Author
 
-Phan Thi Ai My  
-Nguyen Ngoc Thuy Duong
-Nguyen Tang Tai
+Phan Thi Ai My & Nguyen Ngoc Thuy Duong & Nguyen Tang Tai
 Ho Chi Minh City University of Natural Resources and Environment  
 
 ---
